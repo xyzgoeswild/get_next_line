@@ -6,7 +6,7 @@
 /*   By: amuhsen- <borgiba85@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:57:21 by amuhsen-          #+#    #+#             */
-/*   Updated: 2024/04/03 00:49:53 by amuhsen-         ###   ########.fr       */
+/*   Updated: 2024/04/03 05:20:35 by amuhsen-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ char *ft_read_file(int fd, char *string, char *buffer)
         buffer[bytes_read] = '\0';
         string = ft_strjoin(string, buffer);
     }
-    free(buffer);
     return (string);
 }
 
 char  *get_next_line(int fd)
 {
-    char  *line;
-   char  *buffer;
+    char    *line;
+    char    *buffer;
     static char *string;
     
    buffer = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -41,41 +40,14 @@ char  *get_next_line(int fd)
         return (NULL);
     
     if (BUFFER_SIZE <= 0 || fd < 0)
+    {
+        free(buffer);
        return (NULL);
+    }
+
     string = ft_read_file(fd, string, buffer);
-    
     line = ft_copy_line(string);
-    string = new_line(string);
+    string = ft_remainder(string);
+    free(buffer);
     return (line);
 }
-
-
-//&&&&&&&&&&&&&&&&& DELETE &&&&&&&&&&&&&&&&&&&&&&&&
-
-// char	*ft_copy_line(char *line)
-// {
-// 	int		i;
-// 	char	*str;
-
-// 	i = 0;
-// 	if (!line[i])
-// 		return (NULL);
-// 	while (line[i] && line[i] != '\n')
-// 		i++;
-// 	str = (char *)malloc(sizeof(char) * (i + 2));
-// 	if (!str)
-// 		return (NULL);
-// 	i = 0;
-// 	while (line[i] && line[i] != '\n')
-// 	{
-// 		str[i] = line[i];
-// 		i++;
-// 	}
-// 	if (line[i] == '\n')
-// 	{
-// 		str[i] = line[i];
-// 		i++;
-// 	}
-// 	str[i] = '\0';
-// 	return (str);
-// }
